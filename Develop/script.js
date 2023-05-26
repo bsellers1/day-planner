@@ -24,7 +24,7 @@ console.log(dayjs().format("MMM D, YYYY"));
 var currentTimeEl = $("#current-time");
 currentTimeEl.text(dayjs().format("MMM D, YYYY"));
 
-function clearInfo(isTrue) {
+function clearInfo(isTrue) { // clears storage
   if (isTrue) {
     localStorage.clear();
     save();
@@ -32,33 +32,10 @@ function clearInfo(isTrue) {
   $('#modal').modal('hide');
 }
 
-function save() {
-  for (i = 9; i < 18; i++) {
-    var key = '0' + i;
+function save() { // saves, checks, and shows local storage to their hours
+  for (i = 9; i < 17; i++) {
+    var equa = '0' + i;
     var info = $('.description');
-    $('#0' + i).children(info).val(localStorage.getItem(key));
+    $('#0' + i).children(info).val(localStorage.getItem(equa));
   }
 }
-
-function clear() {
-  var date = localStorage.getItem('date');
-  if(!date) return;
-  if (date !== dayjs().format('dddd, MMMM D, YYYY')) { 
-    $('#modalLabel').text(currentDate);
-    $('#modal').modal('show');
-  }
-}
-
-$(document).ready(function () {
-  $('.saveBtn').on('click', function (event) {
-    event.preventDefault();
-    var time = $(this).parent().attr('id');
-    var text = $(this).siblings('.description').val();
-    localStorage.setItem(time, text);
-    localStorage.setItem('date', dayjs().format('dddd, MMMM D, YYYY'));
-  });
-
-  setInterval(checkTime, 100000);
-  clear();
-  save()
-});

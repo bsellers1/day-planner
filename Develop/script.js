@@ -39,3 +39,26 @@ function save() { // saves, checks, and shows local storage to their hours
     $('#0' + i).children(info).val(localStorage.getItem(equa));
   }
 }
+
+function clear() {
+  var date = localStorage.getItem('date');
+  if(!date) return;
+  if (date !== dayjs().format('dddd, MMMM D, YYYY')) { 
+    $('#modalLabel').text(currentDate);
+    $('#modal').modal('show');
+  }
+}
+
+$(document).ready(function () {
+  $('.saveBtn').on('click', function (event) {
+    event.preventDefault();
+    var time = $(this).parent().attr('id');
+    var text = $(this).siblings('.description').val();
+    localStorage.setItem(time, text);
+    localStorage.setItem('date', dayjs().format('dddd, MMMM D, YYYY'));
+  });
+
+  setInterval(checkTime, 100000);
+  clear();
+  save()
+});
